@@ -21,15 +21,17 @@ public class MainJFrame extends javax.swing.JFrame {
      * Creates new form MainJFrame
      */
     public MainJFrame() {
-        initComponents();
+        initComponents(); //set up the GUI
         
-        supplierDirectory = new SupplierDirectory();
+        this.supplierDirectory = new SupplierDirectory();
         setSize(800,600);
         setResizable(false);
        
+        //populate sample data
+        populateSampleData();
         
         setLoginScreen();
-    
+        
     }
 
     /**
@@ -97,14 +99,26 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private void setLoginScreen() {
-
-       
-
+        LoginScreen loginScreen = new LoginScreen(mainWorkArea, supplierDirectory);
+        mainWorkArea.add("LoginScreen", loginScreen);
+        CardLayout layout = (CardLayout) mainWorkArea.getLayout();
+        layout.next(mainWorkArea);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel mainWorkArea;
     // End of variables declaration//GEN-END:variables
+
+    private void populateSampleData() {
+        Supplier s1= supplierDirectory.addSupplier();
+        s1.setSupplyName("McDonald's");
+        
+        Supplier s2= supplierDirectory.addSupplier();
+        s2.setSupplyName("Sushi King");
+        
+        Supplier s3= supplierDirectory.addSupplier();
+        s3.setSupplyName("Dunkin'");
+    }
 
     
 }

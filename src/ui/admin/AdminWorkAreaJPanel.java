@@ -107,10 +107,20 @@ public class AdminWorkAreaJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnManageSuppliersActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
-        // TODO add your handling code here:
+        // Go back to the login page
         
- 
-                
+        //remove the current panel from the stack
+        mainWorkArea.remove(this);
+        
+        //repopulate the supplier
+        Component[] componentArray = mainWorkArea.getComponents();
+        Component previousComponent = componentArray[componentArray.length - 1];
+        LoginScreen loginPanel = (LoginScreen) previousComponent;
+        loginPanel.populateSupplierCombo();
+        
+        // go to the previous panel
+        CardLayout layout = (CardLayout) mainWorkArea.getLayout(); 
+        layout.previous(mainWorkArea);
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     @Override

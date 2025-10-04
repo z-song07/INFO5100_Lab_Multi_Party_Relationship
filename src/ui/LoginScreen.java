@@ -6,6 +6,9 @@
 package ui;
 
 import java.awt.CardLayout;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.Supplier;
@@ -34,7 +37,7 @@ public class LoginScreen extends javax.swing.JPanel {
         this.supplierDirectory = supplierDirectory;
         
         populateRoleCombo();
-        populateSupplierCombo();
+        populateSupplierCombo();   
     }
 
     /**
@@ -126,21 +129,33 @@ public class LoginScreen extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSuppliersActionPerformed
-        // TODO add your handling code here:
+        if (cmbSuppliers.getSelectedItem() == null) {
+            return;
+        }
         
-        
-        
+        selectedSupplier = (Supplier) cmbSuppliers.getSelectedItem();
     }//GEN-LAST:event_cmbSuppliersActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
+        JPanel selectedPanel = (JPanel) cmbRoles.getSelectedItem();
         
+        if(selectedPanel.getClass() == SupplierWorkAreaJPanel.class) {
+            if(selectedSupplier == null) {
+                JOptionPane.showMessageDialog(this, "Please select a supplier to login under supplier role.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else {
+                selectedPanel = new SupplierWorkAreaJPanel(mainWorkArea, selectedSupplier);
+            }    
+        }
         
-        
+        mainWorkArea.add("RoleWorkAreaJPanel", selectedPanel);
+        CardLayout layout = (CardLayout) mainWorkArea.getLayout();
+        layout.next(mainWorkArea);       
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void cmbRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRolesActionPerformed
-        // TODO add your handling code here:
+        // handles whwen the role combo box change
         updateSupplierVisibility();
     }//GEN-LAST:event_cmbRolesActionPerformed
 
@@ -155,20 +170,43 @@ public class LoginScreen extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void populateRoleCombo() {
-        
-      
+//        String[] roles = {"Administrator", "Suppliers"};
+//        
+//        //clear the combo box
+//        cmbRoles.removeAllItems();
+//        for (String role: roles) {
+//            cmbRoles.addItem(role);
+//        }
 
+        cmbRoles.removeAllItems();
+        AdminWorkAreaJPanel adminJpanel = new AdminWorkAreaJPanel(mainWorkArea, supplierDirectory);
+        SupplierWorkAreaJPanel supplierJpanel = new SupplierWorkAreaJPanel(mainWorkArea, selectedSupplier);
+        
+        cmbRoles.addItem(adminJpanel);
+        cmbRoles.addItem(supplierJpanel);
     }
 
     public void populateSupplierCombo() {
-       
-     
-       
+        // clear the combo box content
+        cmbSuppliers.removeAllItems();
+        
+        //
+        for (Supplier s: supplierDirectory.getSupplierList()) {
+            cmbSuppliers.addItem(s);
+        }
     }
 
     private void updateSupplierVisibility() {
-        
-        
-         //To change body of generated methods, choose Tools | Templates.
+         // Selected Roles
+         if(cmbRoles.getSelectedItem() == null || cmbRoles.getSelectedItem().getClass() == AdminWorkAreaJPanel.class) {
+            selectedSupplier = null;
+            lblSupplier.setVisible(false);
+            cmbSuppliers.setVisible(false);
+         } 
+         
+         else if (cmbRoles.getSelectedItem().getClass() == SupplierWorkAreaJPanel.class){
+            lblSupplier.setVisible(true);
+            cmbSuppliers.setVisible(true); 
+         }
     }
 }
