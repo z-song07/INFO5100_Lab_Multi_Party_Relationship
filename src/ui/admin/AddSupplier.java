@@ -47,7 +47,15 @@ public class AddSupplier extends javax.swing.JPanel {
         this.workArea = workArea;
         this.supplierDirectory = supplierDirectory;
         
-    
+        //filter file type
+        
+        
+        FileFilter jpegFilter = new FileNameExtensionFilter("JPEG file", "jpg", "jpeg");
+        FileFilter pngFilter = new FileNameExtensionFilter("PNG file", "png", "png");
+        
+        fileChooser.addChoosableFileFilter(jpegFilter);
+        fileChooser.addChoosableFileFilter(pngFilter);
+        fileChooser.setFileFilter(pngFilter);
     }
 
     /** This method is called from within the constructor to
@@ -184,9 +192,16 @@ public class AddSupplier extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSupplierActionPerformed
-        // TODO add your handling code here:
+        String supplierName = txtName.getText();
+        
+        // check if supplier name is empty
+        if (supplierName.isBlank()){
+            JOptionPane.showMessageDialog(this, "Supplier Name cannot be empty", "WARNING", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         Supplier supplier = supplierDirectory.addSupplier();
-        supplier.setSupplyName(txtName.getText());
+        supplier.setSupplyName(supplierName);
         supplier.setLogoImage(logoImage);
         
         JOptionPane.showMessageDialog(this, "Supplier successfully added", "Warning", JOptionPane.INFORMATION_MESSAGE);
@@ -199,16 +214,29 @@ public class AddSupplier extends javax.swing.JPanel {
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void btnAttachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttachActionPerformed
-        // TODO add your handling code here:
+        // open the file browser
+        int returnVal = fileChooser.showOpenDialog(this);
         
-        
+        // validate the chosen file
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            URL url;
+            try {
+                url=file.toURI().toURL();
+                logoImage = new ImageIcon(url);
+                logoImage = new ImageIcon(logoImage.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+                
+                imgLogo.setIcon(logoImage);
+            } catch (MalformedURLException e){
+                Logger.getLogger(this.getName()).log(Level.SEVERE, null, e);
+            }
+        }
     }//GEN-LAST:event_btnAttachActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
-        
-  
-        
+        // remove logo, set logoImage and the display (imgLogo) to null
+        logoImage = null;
+        imgLogo.setIcon(logoImage);
     }//GEN-LAST:event_btnRemoveActionPerformed
 
       
