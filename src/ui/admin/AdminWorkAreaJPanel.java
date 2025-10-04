@@ -102,13 +102,16 @@ public class AdminWorkAreaJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnManageSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageSuppliersActionPerformed
-        // TODO add your handling code here:
-     
+        // display the manage suppliers panel in the work area
+        ManageSuppliers manageSuppliersPanel = new ManageSuppliers(workArea, supplierDirectory);
+        
+        workArea.add("ManageSuppliersAdminPanel",manageSuppliersPanel);
+        CardLayout layout = (CardLayout) workArea.getLayout();
+        layout.next(workArea);
     }//GEN-LAST:event_btnManageSuppliersActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         // Go back to the login page
-        
         //remove the current panel from the stack
         mainWorkArea.remove(this);
         
