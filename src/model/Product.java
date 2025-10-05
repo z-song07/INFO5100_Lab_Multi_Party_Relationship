@@ -54,7 +54,7 @@ public class Product {
     public Feature addFeature() {
         Feature newFeature = new Feature();
         features.add(newFeature);
-        return newFeature; 
+        return newFeature;
     }
     
     @Override

@@ -6,6 +6,9 @@
 package ui;
 
 import java.awt.CardLayout;
+import model.Feature;
+import model.Product;
+import model.ProductCatalog;
 import model.Supplier;
 import model.SupplierDirectory;
 
@@ -110,14 +113,72 @@ public class MainJFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void populateSampleData() {
+        // create suppliers and get productCatalog
         Supplier s1= supplierDirectory.addSupplier();
         s1.setSupplyName("McDonald's");
+        ProductCatalog productCatalog1 = s1.getProductCatalog();
         
         Supplier s2= supplierDirectory.addSupplier();
-        s2.setSupplyName("Sushi King");
+        s2.setSupplyName("Popeyes");
+        ProductCatalog productCatalog2 = s2.getProductCatalog();
         
         Supplier s3= supplierDirectory.addSupplier();
         s3.setSupplyName("Dunkin'");
+        ProductCatalog productCatalog3 = s3.getProductCatalog();
+        
+        // create product and add to product catalog
+        Product p1 = productCatalog1.addProduct();
+        p1.setName("Big Mac");
+        p1.setPrice(6);        
+        
+        Product p2 = productCatalog1.addProduct();
+        p2.setName("French Fris");
+        p2.setPrice(4);
+        
+        Product p3 = productCatalog2.addProduct();
+        p3.setName("Wings");
+        p3.setPrice(7);
+        
+        Product p4 = productCatalog2.addProduct();
+        p4.setName("Tenders");
+        p4.setPrice(10);
+        
+        Product p5 = productCatalog3.addProduct();
+        p5.setName("Glazed Donut");
+        p5.setPrice(2);
+        
+        Product p6 = productCatalog3.addProduct();
+        p6.setName("Hot Coffee");
+        p6.setPrice(3);
+        
+        // add features
+        Feature f1 = p1.addFeature();
+        f1.setName("Calories");
+        f1.setValue("590");
+        
+        Feature f2 = p2.addFeature();
+        f2.setName("Calories");
+        f2.setValue("320");
+        
+        Feature f3 = p2.addFeature();
+        f3.setName("Condiment");
+        f3.setValue("Ketchup");
+        
+        Feature f4 = p3.addFeature();
+        f4.setName("Pieces");
+        f4.setValue("6");
+        
+        Feature f5 = p4.addFeature();
+        f5.setName("Pieces");
+        f5.setValue("3");
+        
+        Feature f6 = p5.addFeature();
+        f6.setName("Calories");
+        f6.setValue("240");
+        
+        Feature f7 = p6.addFeature();
+        f7.setName("Size");
+        f7.setValue("Medium");
     }
 
     

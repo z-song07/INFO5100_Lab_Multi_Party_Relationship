@@ -135,14 +135,33 @@ public class CreateNewProductJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
-        Product product = supplier.getProductCatalog().addProduct();
-        product.setName(txtName.getText());
+        
+        Product product;
+        String productName = txtName.getText();
+        
+        if (productName.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Name.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // get price and validate
         String stringPrice = txtPrice.getText();
-        if (stringPrice.isEmpty() == false) {
+        
+        if (stringPrice.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Price.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        try{
+            product = supplier.getProductCatalog().addProduct();
+            product.setName(productName);
             int price = Integer.parseInt(stringPrice);
             product.setPrice(price);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Price", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+        
         JOptionPane.showMessageDialog(this, "Product successfully added", "Information", JOptionPane.INFORMATION_MESSAGE);
         backAction();
 }//GEN-LAST:event_btnAddActionPerformed
@@ -155,6 +174,7 @@ public class CreateNewProductJPanel extends javax.swing.JPanel {
         CardLayout layout = (CardLayout) workArea.getLayout();
         layout.previous(workArea);
     }
+    
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
         backAction();
