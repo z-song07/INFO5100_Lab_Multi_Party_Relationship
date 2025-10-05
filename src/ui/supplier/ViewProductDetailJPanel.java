@@ -249,6 +249,11 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
             return;
         }
         
+        if (productPrice <= 0) {
+            JOptionPane.showMessageDialog(this, "Price must be greater than 0", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         product.setName(productName);
         product.setPrice(productPrice);
         saveFeatures();

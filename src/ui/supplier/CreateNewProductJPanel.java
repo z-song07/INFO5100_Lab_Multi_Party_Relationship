@@ -153,10 +153,17 @@ public class CreateNewProductJPanel extends javax.swing.JPanel {
             return;
         }
        
+        // Make sure the price can be converted to Integer
         try{
             price = Integer.parseInt(stringPrice);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter a valid Price", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // make sure the price is greater than 0
+        if (price <=0) {
+            JOptionPane.showMessageDialog(this, "Price must be greater than zero", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
@@ -166,6 +173,7 @@ public class CreateNewProductJPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Product successfully added", "Information", JOptionPane.INFORMATION_MESSAGE);
         backAction();
 }//GEN-LAST:event_btnAddActionPerformed
+
     private void backAction() {
         workArea.remove(this);
         Component[] componentArray = workArea.getComponents();
