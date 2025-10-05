@@ -8,7 +8,9 @@ package ui.supplier;
 import model.Product;
 import model.Supplier;
 import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import model.ProductCatalog;
 
 
 
@@ -41,7 +43,7 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
         lblProductId = new javax.swing.JLabel();
         idField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -56,10 +58,10 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("<< Back");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setText("<< Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
 
@@ -72,7 +74,7 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblProductId)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnBack)
                         .addGap(37, 37, 37)
                         .addComponent(lblTitle))
                     .addGroup(layout.createSequentialGroup()
@@ -86,7 +88,7 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnBack)
                     .addComponent(lblTitle))
                 .addGap(61, 61, 61)
                 .addComponent(lblProductId)
@@ -102,22 +104,46 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
+        // get product catalog of the supplier
+        ProductCatalog productList = supplier.getProductCatalog();
         
+        // get the current id and check validation
+        String input = idField.getText();
+        int productId;
+        try {
+            productId = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid id", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
+        // get the product
+        Product resultProduct = productList.searchProduct(productId);
+        
+        // if not found, display dialog
+        if (resultProduct == null) {
+            JOptionPane.showMessageDialog(this, "Product not found", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else {
+        // if found, redirect to product details
+            ViewProductDetailJPanel productDetailPanel = new ViewProductDetailJPanel(workArea, resultProduct);
+            workArea.add("ViewProductDetailJPanel",productDetailPanel);
+            CardLayout layout = (CardLayout) workArea.getLayout();
+            layout.next(workArea);            
+        }
 }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
         workArea.remove(this);
         CardLayout layout = (CardLayout)workArea.getLayout();
         layout.previous(workArea);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JTextField idField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblProductId;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JButton searchButton;

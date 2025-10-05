@@ -16,6 +16,7 @@ public class Product {
     private String name;
     private int price;
     private int id;
+    private ArrayList<Feature> features = new ArrayList();
 
     private static int count = 0;
     
@@ -46,6 +47,15 @@ public class Product {
         this.price = price;
     }
 
+    public ArrayList<Feature> getFeatures() {
+        return features;
+    }
+    
+    public Feature addFeature() {
+        Feature newFeature = new Feature();
+        features.add(newFeature);
+        return newFeature; 
+    }
     
     @Override
     public String toString() {

@@ -224,31 +224,82 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
     }
     
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        String productName = txtName.getText();
+        String productPriceTxt = txtPrice.getText();
+        int productPrice;
         
+        // check valid product name
+        if (productName.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Product name cannot be empty", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
+        // check valid product price
+        try {
+            productPrice = Integer.parseInt(productPriceTxt);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Price entry is invalid.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        product.setName(productName);
+        product.setPrice(productPrice);
+        saveFeatures();
+        
+        txtName.setEditable(false);
+        txtPrice.setEditable(false);
+        btnSave.setEnabled(false);
+        tblFeatures.setEnabled(false);
+        btnAddFeature.setEnabled(false);
+        btnRemoveFeature.setEnabled(false);
+        btnUpdate.setEnabled(true);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void saveFeatures() {
+       DefaultTableModel model = (DefaultTableModel) tblFeatures.getModel();
        
+       for (int i=0; i < model.getRowCount(); i++)  {
+           Feature currentFeature = product.getFeatures().get(i);
+           currentFeature.setName(tblFeatures.getValueAt(i, 0).toString());
+           currentFeature.setValue(tblFeatures.getValueAt(i, 1).toString());
+       }
     }
 
     private void btnAddFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFeatureActionPerformed
         // TODO add your handling code here:
-
+        Feature newFeature = product.addFeature();
+        newFeature.setName("New Feature");
+        newFeature.setValue("Type Value Here:");
+        
+        saveFeatures();
+        
+        refreshTable();
         
        
     }//GEN-LAST:event_btnAddFeatureActionPerformed
 
     private void btnRemoveFeatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveFeatureActionPerformed
-        // TODO add your handling code here:
-
+        int row = tblFeatures.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a feature to remove.", "WARNING", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        product.getFeatures().remove(row);
+        refreshTable();
+        
        
     }//GEN-LAST:event_btnRemoveFeatureActionPerformed
 
     public void refreshTable() {
-
+        DefaultTableModel model = (DefaultTableModel) tblFeatures.getModel();
+        model.setRowCount(0);
         
+        for (Feature f : product.getFeatures()) {
+            Object row[] = new Object[2];
+            row[0] = f;
+            row[1] = f.getValue() == null? "Empty": f.getValue().toString();
+            model.addRow(row);
+        }
     }
 
 
