@@ -132,7 +132,7 @@ public class MainJFrame extends javax.swing.JFrame {
         p1.setPrice(6);        
         
         Product p2 = productCatalog1.addProduct();
-        p2.setName("French Fris");
+        p2.setName("Fries");
         p2.setPrice(4);
         
         Product p3 = productCatalog2.addProduct();

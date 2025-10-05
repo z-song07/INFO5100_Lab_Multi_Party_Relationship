@@ -204,6 +204,7 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
         tblFeatures.setEnabled(true);
         btnAddFeature.setEnabled(true);
         btnRemoveFeature.setEnabled(true);
+        btnUpdate.setEnabled(false);
 
         // Instruction Dialog
         JOptionPane.showMessageDialog(this, "Please click on Save button, else the change won't be saved.", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -219,8 +220,12 @@ public class ViewProductDetailJPanel extends javax.swing.JPanel {
         workArea.remove(this);
         Component[] componentArray = workArea.getComponents();
         Component component = componentArray[componentArray.length - 1];
-        ManageProductCatalogJPanel manageProductCatalogJPanel = (ManageProductCatalogJPanel) component;
-        manageProductCatalogJPanel.refreshTable();
+        
+        // if the previous is from ManageProductCatalogJPanel
+        if (component instanceof ManageProductCatalogJPanel) {
+            ManageProductCatalogJPanel manageProductCatalogJPanel = (ManageProductCatalogJPanel) component;
+            manageProductCatalogJPanel.refreshTable();
+        }
         CardLayout layout = (CardLayout) workArea.getLayout();
         layout.previous(workArea);
     }

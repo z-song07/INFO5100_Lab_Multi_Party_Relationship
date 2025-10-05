@@ -8,6 +8,7 @@ package ui.supplier;
 import model.Product;
 import model.Supplier;
 import java.awt.CardLayout;
+import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.ProductCatalog;
@@ -134,8 +135,17 @@ public class SearchForProductJPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_searchButtonActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        workArea.remove(this);
+         workArea.remove(this);
+         // handles to refresh the table if the user came from the ViewProductDetailJPanel to the SearchForProductJPanel
+        Component[] componentArray = workArea.getComponents();
+        Component component = componentArray[componentArray.length - 1];
+    
+        // Check if the component is an instance of ManageProductCatalogJPanel
+        if (component instanceof ManageProductCatalogJPanel) {
+            ManageProductCatalogJPanel manageProductCatalogJPanel = (ManageProductCatalogJPanel) component;
+            manageProductCatalogJPanel.refreshTable();
+        }
+
         CardLayout layout = (CardLayout)workArea.getLayout();
         layout.previous(workArea);
     }//GEN-LAST:event_btnBackActionPerformed

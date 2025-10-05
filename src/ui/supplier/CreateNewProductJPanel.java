@@ -137,6 +137,7 @@ public class CreateNewProductJPanel extends javax.swing.JPanel {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         
         Product product;
+        int price;
         String productName = txtName.getText();
         
         if (productName.isBlank()) {
@@ -151,17 +152,17 @@ public class CreateNewProductJPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please enter a valid Price.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+       
         try{
-            product = supplier.getProductCatalog().addProduct();
-            product.setName(productName);
-            int price = Integer.parseInt(stringPrice);
-            product.setPrice(price);
+            price = Integer.parseInt(stringPrice);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Please enter a valid Price", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
+        product = supplier.getProductCatalog().addProduct();
+        product.setName(productName);
+        product.setPrice(price);
         JOptionPane.showMessageDialog(this, "Product successfully added", "Information", JOptionPane.INFORMATION_MESSAGE);
         backAction();
 }//GEN-LAST:event_btnAddActionPerformed

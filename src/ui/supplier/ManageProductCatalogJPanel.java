@@ -11,6 +11,7 @@ import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import model.ProductCatalog;
 
 /**
  *
@@ -193,7 +194,25 @@ public class ManageProductCatalogJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        int row = tblProducts.getSelectedRow();
+        
+        // validate the selected row
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // get the current supplier's product catalog
+        ProductCatalog productCatalog = supplier.getProductCatalog();
+        
+        // get the selected product
+        Product selectedProduct = (Product) tblProducts.getValueAt(row, 0);
+        
+        // delete and display success message
+        productCatalog.removeProduct(selectedProduct);
+        JOptionPane.showMessageDialog(this, "Product successfully deleted", "Information", JOptionPane.INFORMATION_MESSAGE);
+        
+        refreshTable();
         
     }//GEN-LAST:event_btnDeleteActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
